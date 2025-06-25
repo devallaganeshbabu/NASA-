@@ -15,7 +15,7 @@ const Login = ({ setUser }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/login", form); // ✅ Full URL for dev
+      const res = await axios.post("https://nasa-final.onrender.com/api/login", form); // ✅ Full URL for dev
       const name = res.data.user?.name || "User";
 
       // Save user to localStorage and app state
