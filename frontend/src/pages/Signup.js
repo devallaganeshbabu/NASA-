@@ -1,0 +1,630 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const Signup = () => {
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setError(""); // Clear error when user starts typing
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {      
+      // For demo purposes - in real app, this would be actual API call
+      await axios.post("https://nasa-final.onrender.com/api/signup", form);
+      
+      alert("🚀 Signup successful! Welcome to the NASA Explorer community!");
+      navigate("/login");
+    } catch (err) {
+      setError("Mission failed! Unable to create account. Please try again.");
+      
+      // Add shake animation to form
+      const formElement = document.querySelector('.auth-form');
+      formElement.classList.add('shake');
+      setTimeout(() => formElement.classList.remove('shake'), 600);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+  return (
+    <div className="auth-container">
+      {/* Animated space background */}
+      <div className="stars-bg"></div>
+      
+      {/* Cosmic particles */}
+      <div className="cosmic-particles"></div>
+      
+      {/* Floating space elements */}
+      <div className="floating-elements">
+        <div className="planet planet-1"></div>
+        <div className="planet planet-2"></div>
+        <div className="satellite"></div>
+      </div>
+
+      <div className="auth-wrapper">
+        <form className="auth-form" onSubmit={handleSignup}>
+          {/* Form header with NASA logo */}
+          <div className="form-header">
+            <div className="nasa-logo">
+              <div className="logo-ring"></div>
+              <div className="logo-center">🚀</div>
+            </div>
+            <h1 className="nasa-title">NASA Explorer</h1>
+            <p className="auth-subtitle">Join the cosmic journey</p>
+          </div>
+
+          {/* Error message */}
+          {error && (
+            <div className="error-message">
+              <span className="error-icon">⚠️</span>
+              {error}
+            </div>
+          )}
+
+          {/* Form inputs */}
+          <div className="form-group">
+            <div className="input-wrapper">
+              <span className="input-icon">👤</span>
+              <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                value={form.name}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <div className="input-wrapper">
+              <span className="input-icon">📧</span>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={form.email}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <div className="input-wrapper">
+              <span className="input-icon">🔒</span>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={form.password}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Submit button */}
+          <button type="submit" className="auth-button" disabled={isLoading}>
+            <div className="button-glow"></div>
+            {isLoading ? (
+              <>
+                <div className="loading-spinner"></div>
+                Launching...
+              </>
+            ) : (
+              <>
+                🚀 Join Mission
+              </>
+            )}
+          </button>
+
+          {/* Footer */}
+          <div className="auth-footer">
+            <p>
+              Already have an account?{" "}
+              <button 
+                type="button"
+                onClick={() => navigate("/login")}
+                className="signup-redirect-button"
+              >
+                Sign In
+              </button>
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <style>{`
+        /* ModernAuth.css styles */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        .auth-container {
+          min-height: 100vh;
+          background: linear-gradient(135deg, #0a0a23 0%, #1a1a3e 25%, #2d1b69 50%, #1e3a8a 75%, #0f172a 100%);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-family: 'Inter', sans-serif;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Animated space background */
+        .stars-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: 
+            radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+            radial-gradient(2px 2px at 160px 30px, #ffffff, transparent);
+          background-repeat: repeat;
+          background-size: 200px 150px;
+          animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+          0% { opacity: 0.3; transform: scale(1); }
+          100% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Cosmic particles */
+        .cosmic-particles {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        .cosmic-particles::before,
+        .cosmic-particles::after {
+          content: '';
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: radial-gradient(circle, #64ffda, transparent);
+          border-radius: 50%;
+          animation: float 8s ease-in-out infinite;
+        }
+
+        .cosmic-particles::before {
+          top: 20%;
+          left: 20%;
+          animation-delay: 0s;
+        }
+
+        .cosmic-particles::after {
+          top: 60%;
+          right: 20%;
+          animation-delay: 2s;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Floating elements */
+        .floating-elements {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+
+        .planet {
+          position: absolute;
+          border-radius: 50%;
+          opacity: 0.1;
+          animation: orbit 20s linear infinite;
+        }
+
+        .planet-1 {
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+          top: 15%;
+          right: 15%;
+          animation-duration: 25s;
+        }
+
+        .planet-2 {
+          width: 40px;
+          height: 40px;
+          background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+          bottom: 20%;
+          left: 10%;
+          animation-duration: 30s;
+          animation-direction: reverse;
+        }
+
+        .satellite {
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          background: linear-gradient(45deg, #ffd93d, #ff8c42);
+          border-radius: 50%;
+          top: 30%;
+          right: 30%;
+          opacity: 0.3;
+          animation: satellite-orbit 15s linear infinite;
+        }
+
+        @keyframes orbit {
+          0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+          100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+
+        @keyframes satellite-orbit {
+          0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
+          100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+        }
+
+        /* Auth wrapper */
+        .auth-wrapper {
+          position: relative;
+          z-index: 10;
+        }
+
+        /* Form styles */
+        .auth-form {
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 24px;
+          padding: 3rem 2.5rem;
+          width: 100%;
+          max-width: 420px;
+          box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.3),
+            0 0 0 1px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          position: relative;
+          transition: all 0.3s ease;
+        }
+
+        .auth-form::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+          border-radius: 24px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .auth-form:hover::before {
+          opacity: 1;
+        }
+
+        /* Form header */
+        .form-header {
+          text-align: center;
+          margin-bottom: 2.5rem;
+        }
+
+        .nasa-logo {
+          position: relative;
+          width: 80px;
+          height: 80px;
+          margin: 0 auto 1.5rem;
+        }
+
+        .logo-ring {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border: 3px solid rgba(100, 255, 218, 0.3);
+          border-radius: 50%;
+          animation: rotate 10s linear infinite;
+        }
+
+        .logo-ring::before {
+          content: '';
+          position: absolute;
+          top: -3px;
+          left: 50%;
+          width: 6px;
+          height: 6px;
+          background: #64ffda;
+          border-radius: 50%;
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        .logo-center {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 2rem;
+          animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .nasa-title {
+          font-size: 2.2rem;
+          font-weight: 700;
+          background: linear-gradient(135deg, #64ffda, #45b7d1, #4ecdc4);
+          background-size: 200% 200%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: gradient-shift 3s ease-in-out infinite;
+          margin-bottom: 0.5rem;
+        }
+
+        .auth-subtitle {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 1.1rem;
+          font-weight: 400;
+          margin-bottom: 0;
+        }
+
+        @keyframes gradient-shift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+
+        /* Error message */
+        .error-message {
+          background: rgba(255, 107, 107, 0.1);
+          border: 1px solid rgba(255, 107, 107, 0.3);
+          border-radius: 12px;
+          padding: 1rem;
+          margin-bottom: 1.5rem;
+          color: #ff6b6b;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          animation: slideIn 0.3s ease;
+        }
+
+        .error-icon {
+          font-size: 1.1rem;
+        }
+
+        @keyframes slideIn {
+          0% { opacity: 0; transform: translateY(-10px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form groups */
+        .form-group {
+          margin-bottom: 1.5rem;
+        }
+
+        .input-wrapper {
+          position: relative;
+        }
+
+        .form-input {
+          width: 100%;
+          padding: 1rem 1rem 1rem 3rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 16px;
+          color: white;
+          font-size: 1rem;
+          font-weight: 400;
+          outline: none;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+
+        .form-input::placeholder {
+          color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-input:focus {
+          border-color: #64ffda;
+          box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1);
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        .input-icon {
+          position: absolute;
+          left: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 1.1rem;
+          opacity: 0.7;
+        }
+
+        /* Auth button */
+        .auth-button {
+          width: 100%;
+          padding: 1.2rem;
+          background: linear-gradient(135deg, #64ffda, #45b7d1);
+          border: none;
+          border-radius: 16px;
+          color: #0a0a23;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          margin-bottom: 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+
+        .auth-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 15px 35px rgba(100, 255, 218, 0.3);
+        }
+
+        .auth-button:active {
+          transform: translateY(0);
+        }
+
+        .auth-button:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .button-glow {
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: left 0.5s ease;
+        }
+
+        .auth-button:hover .button-glow {
+          left: 100%;
+        }
+
+        .loading-spinner {
+          width: 20px;
+          height: 20px;
+          border: 2px solid rgba(10, 10, 35, 0.3);
+          border-top: 2px solid #0a0a23;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* Auth footer */
+        .auth-footer {
+          text-align: center;
+          margin-top: 1rem;
+          position: relative;
+          z-index: 2;
+        }
+
+        .auth-footer p {
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 0.95rem;
+        }
+
+        .signup-redirect-button {
+          background: transparent;
+          border: 1px solid #64ffda;
+          border-radius: 12px;
+          padding: 0.6rem 1.2rem;
+          color: #64ffda;
+          font-size: 1rem;
+          font-weight: 500;
+          cursor: pointer;
+          z-index: 2;
+          transition: all 0.3s ease;
+        }
+
+        .signup-redirect-button:hover {
+          background: rgba(100, 255, 218, 0.1);
+          color: #45b7d1;
+          box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+
+        /* Animations */
+        .auth-form.shake {
+          animation: shake 0.6s ease-in-out;
+        }
+
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+          20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .auth-form.success {
+          animation: success 0.8s ease-in-out;
+        }
+
+        @keyframes success {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+          .auth-form {
+            margin: 1rem;
+            padding: 2rem 1.5rem;
+          }
+          
+          .nasa-title {
+            font-size: 1.8rem;
+          }
+          
+          .auth-subtitle {
+            font-size: 1rem;
+          }
+          
+          .floating-elements {
+            display: none;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .auth-form {
+            padding: 1.5rem 1rem;
+          }
+          
+          .nasa-logo {
+            width: 60px;
+            height: 60px;
+          }
+          
+          .logo-center {
+            font-size: 1.5rem;
+          }
+          
+          .nasa-title {
+            font-size: 1.6rem;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default Signup;
