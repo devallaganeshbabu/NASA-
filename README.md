@@ -47,8 +47,8 @@ Getting Started Locally
 bash
 Copy
 Edit
-git clone [https://github.com/your-username/nasa-final.git](https://github.com/devallaganeshbabu/NASA-/)
-cd nasa-final
+git clone [https://github.com/devallaganeshbabu/NASA-/](https://github.com/devallaganeshbabu/NASA-/)
+cd NASA-
 2. Setup Backend
 bash
 Copy
