@@ -8,7 +8,7 @@ A full-stack web application that utilizes NASA's Open APIs to provide users wit
 
 ## 🌌 Live Demo
 
-- 🔹 **Frontend (Vercel)**: [https://nasa-final-henna.vercel.app](https://nasa-final-henna.vercel.app)
+- 🔹 **Frontend (Vercel)**: [https://frontend-nu-three-57.vercel.app/](https://frontend-nu-three-57.vercel.app/)
 - 🔹 **Backend (Render)**: [https://nasa-final.onrender.com](https://nasa-final.onrender.com)
 
 ---
