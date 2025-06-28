@@ -381,7 +381,7 @@
   width: 100vw;
   height: calc(100vh - 80px);
   background: rgba(0,0,0,0.5);
-  z-index: 2999;
+  z-index: 1999;
 }
 
 /* Responsive */
