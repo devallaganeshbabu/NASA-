@@ -10,7 +10,7 @@ const Apod = () => {
 
   useEffect(() => {
     axios
-      .get("/api/apod")
+      .get("https://nasa-final.onrender.com/api/apod")
       .then((res) => {
         setData(res.data);
         setLoading(false);
